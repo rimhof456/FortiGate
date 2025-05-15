@@ -1,2 +1,2 @@
-# Fortinet
-Templates and configurations for testing various Fortinet solutions.
+# FortiGate
+Templates and configurations for testing various FortiGate architecture design
