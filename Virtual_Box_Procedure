@@ -1,0 +1,55 @@
+🛠️ Step-by-Step: Install FortiGate VM in VirtualBox
+
+1. Download the FortiGate VM
+You need a .qcow2 (for KVM) or .vmdk (for VMware) FortiGate VM image.
+If you only find .out files (bare metal firmware), it won't work — you need a VM image.
+Best: Download the KVM version (.qcow2) or VMware version (.vmdk).
+
+2. Prepare the Image for VirtualBox
+VirtualBox cannot directly use .qcow2 images. You must convert it to a .vdi or .vmdk format:
+If it's .qcow2:
+sudo apt install qemu-utils    # if needed
+qemu-img convert -f qcow2 -O vdi fortigate.qcow2 fortigate.vdi
+If it's already .vmdk, you can use it directly.
+
+3. Create a New Virtual Machine in VirtualBox
+Type: Linux
+Version: Other Linux (64-bit)
+Memory: Allocate at least 1024 MB RAM (preferably 2048 MB or more).
+Hard Disk:
+Choose "Use an existing virtual disk file"
+Select your converted fortigate.vdi or original .vmdk.
+
+4. Set up the Network Interfaces
+FortiGate expects multiple NICs (usually at least 2: one for WAN, one for LAN).
+In Settings ➔ Network:
+Adapter 1: Bridged Adapter or NAT (for Internet access).
+Adapter 2+: Internal Network or Host-only Adapter (for LAN simulation).
+
+⚡ Important: Set network adapters to virtio-net or Intel PRO/1000 MT Server for best compatibility.
+
+5. Other Settings
+Disable Audio (not needed).
+Processor: Give at least 1 CPU; 2 CPUs recommended.
+Acceleration: Ensure VT-x/AMD-V is enabled.
+Storage: No optical drive needed — just boot off the FortiGate virtual disk.
+
+6. First Boot
+Start the VM.
+It should boot to the FortiGate CLI (FortiGate-VM64 login: prompt).
+Default credentials:
+Username: admin
+Password: (blank) → just press Enter.
+First time login will ask you to set a new password.
+
+7. Access the Web GUI (Optional but Recommended)
+Once it’s running:
+Find which network interface is your mgmt interface (usually port1).
+Set an IP if needed:
+config system interface
+  edit port1
+    set ip 192.168.1.99/24
+    set allowaccess ping https ssh http fgfm
+  next
+end
+Then browse to https://192.168.1.99/ in your browser.
