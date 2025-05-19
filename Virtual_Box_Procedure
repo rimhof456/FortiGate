@@ -11,6 +11,7 @@ If it's .qcow2:
 
 sudo apt install qemu-utils    # if needed
 qemu-img convert -f qcow2 -O vdi fortios.qcow2 fortios.vdi
+sudo chmod 777 fortios.vdi
 If it's already .vmdk, you can use it directly.
 
 3. Create a New Virtual Machine in VirtualBox
