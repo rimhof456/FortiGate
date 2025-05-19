@@ -8,8 +8,9 @@ Best: Download the KVM version (.qcow2) or VMware version (.vmdk).
 2. Prepare the Image for VirtualBox
 VirtualBox cannot directly use .qcow2 images. You must convert it to a .vdi or .vmdk format:
 If it's .qcow2:
+
 sudo apt install qemu-utils    # if needed
-qemu-img convert -f qcow2 -O vdi fortigate.qcow2 fortigate.vdi
+qemu-img convert -f qcow2 -O vdi fortios.qcow2 fortios.vdi
 If it's already .vmdk, you can use it directly.
 
 3. Create a New Virtual Machine in VirtualBox
